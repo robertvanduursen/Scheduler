@@ -76,10 +76,52 @@ class CanvasModule(QtWidgets.QMainWindow):
 
     def quit(self):
         print('exiting')
+        print('saving')
+        self.save()
         sys.exit()
+
+    def save(self):
+        f = QtCore.QFile("file.dat")
+        f.open(QtCore.QIODevice.WriteOnly)
+
+        # stream.writeQString()
+        # l = QtWidgets.QTreeWidgetItem()
+        print('selecting all')
+        l = self.setList
+        print('selecting ')
+        l.selectAll()
+        print('sel')
+        stream = QtCore.QDataStream(f)
+
+        print('saving in progress')
+        for item in l.selectedItems():
+            print(item)
+            # stream << item
+            item.write(stream)
+
+            # self.copiedItem.clear()
+            # self.pasteOffset = 5
+            # stream = QtCore.QDataStream(self.copiedItem, QtCore.QIODevice.WriteOnly)
+            # self.writeItemToStream(stream, item)
+
+
+        print('saved')
+
+
+        '''
+        QFile file("file.dat");
+        file.open(QIODevice::WriteOnly);
+        QDataStream out(&file);   // we will serialize the data into the file
+        out << QString("the answer is");   // serialize a string
+        out << (qint32)42;        // serialize an integer
+
+        :return:
+        '''
 
     def clear_graph(self):
         self.scene.clear()
+
+# todo: saving and loading
 
 
 c = CanvasModule()
